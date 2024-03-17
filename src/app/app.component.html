@@ -1,0 +1,15 @@
+
+<nav>
+  <button id="stepFirst" routerLink="/step1" routerLinkActive="active">
+    Step1
+  </button>
+  <button id="stepSecond" routerLink="/step2" routerLinkActive="active" [disabled]="isDisabledStep2">
+    Step2
+  </button>
+  <button id="stepThird" routerLink="/step3" routerLinkActive="active" [disabled]="isDisabledStep3">
+    Step3
+  </button>
+</nav>
+<router-outlet></router-outlet>
+
+<img *ngIf="imgPath" [src]="imgPath" alt="Model Image">
