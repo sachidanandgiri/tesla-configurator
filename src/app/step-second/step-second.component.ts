@@ -38,6 +38,7 @@ export class StepSecondComponent implements OnInit {
 
       localStorage.setItem('towHitch', configData.towHitch.toString());
       localStorage.setItem('yoke', configData.yoke.toString());
+      this.storageData.enableThirdStep(true);
     })
   }
 
