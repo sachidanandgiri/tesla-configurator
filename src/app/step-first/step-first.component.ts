@@ -17,16 +17,23 @@ export class StepFirstComponent implements OnInit {
   carColors!: carColor[];
   @ViewChild('model') model!: ElementRef;
   @ViewChild('color') color!: ElementRef;
-  imgPath:string = '';
+  imgPath: string = '';
   isVisibleColor: boolean = false;
   constructor(private carService: StepFirstService, private appService: AppService) {
 
   }
 
   ngOnInit() {
+    localStorage.setItem('model', '');
+    localStorage.setItem('color', '');
+    localStorage.setItem('colorPrice', '')
     this.carService.getCarModels().subscribe(data => {
       this.carModels = <carModel[]>data;
-    })
+    });
+    if (localStorage.getItem('model') == '') {
+      this.appService.imgSource.next('');
+      this.appService.enableThirdStep(true);
+    }
   }
 
   changeModel() {
@@ -36,12 +43,12 @@ export class StepFirstComponent implements OnInit {
     this.isVisibleColor = true;
   }
 
-  changeColor(){
+  changeColor() {
     const selectModel = this.model?.nativeElement?.value == 'Choose Model' ? '' : this.model?.nativeElement?.value;
     const selectColor = this.color?.nativeElement?.value == 'Choose Color' ? '' : this.color?.nativeElement?.value;
-    const selectedColor = this.carColors?.filter((e: carColor)=> e.code == selectColor);
+    const selectedColor = this.carColors?.filter((e: carColor) => e.code == selectColor);
     const selectedColorCode = selectedColor[0]?.code ? selectedColor[0]?.code : '';
-    if(selectModel && selectedColorCode){
+    if (selectModel && selectedColorCode) {
       this.imgPath = `../assets/img/${selectModel}/${selectedColor[0]?.code}.jpg`;
     }
     localStorage.setItem('model', selectModel);
@@ -50,7 +57,7 @@ export class StepFirstComponent implements OnInit {
     this.appService.renderImage(this.imgPath);
   }
 
-  clearStorage(){
+  clearStorage() {
     localStorage.setItem('model', '');
     localStorage.setItem('color', '');
     localStorage.setItem('colorPrice', '');
